@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  booking-backend:
+    image: booking-backend:1.0-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8080:8080"
+#    networks:
+#      - booking-network
+    environment:
+#      DATABASE_SERVER: jdbc:h2:file:/app/testdb
+      DATABASE_SERVER: jdbc:h2:mem:testdb
+
+#  booking-ui:
+#    image: booking-ui:1.0-SNAPSHOT
+#    mem_limit: 700m
+#    ports:
+#      - "3000:3000"
+#    networks:
+#      - booking-network
+#networks:
+#  booking-network:
