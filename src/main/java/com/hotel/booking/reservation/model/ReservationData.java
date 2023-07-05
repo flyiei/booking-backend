@@ -14,13 +14,13 @@ import lombok.NoArgsConstructor;
 public class ReservationData {
 
     private Long id;
-    @NotEmpty(message = "agency must not be null")
+    @NotEmpty(message = "agency must not be null or empty")
     private String agency;
-    @NotEmpty(message = "hotel must not be null")
+    @NotEmpty(message = "hotel must not be null or empty")
     private String hotel;
-//    @NotEmpty(message = "reserveDate must not be null")
+//    @NotEmpty(message = "reserveDate must not be null or empty")
     private String reserveDate;
-    @NotEmpty(message = "consumer must not be null")
+    @NotEmpty(message = "consumer must not be null or empty")
     private String consumer;
 
 

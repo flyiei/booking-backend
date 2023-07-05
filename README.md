@@ -36,18 +36,23 @@ docker-compose down
 ```
 
 ## Access to H2-console
+
 http://localhost:8080/h2-console
+```
 username: sa 
 no password
 jdbc url(app run from ide): jdbc:h2:mem:testdb
 jdbc url(app run from docker): jdbc:h2:mem:testdb
+```
 
 ## Start booking ui app: booking-ui 
 https://github.com/flyiei/booking-ui
+```
 Check README.md in booking-ui project 
-
+```
 # Booking Backend APIS
-## GET /api/v1/reservations
+
+## GET /api/v1/reservations?pageNum=0&pageSize=4
 * Response
 ```json
 [
@@ -60,6 +65,12 @@ Check README.md in booking-ui project
     }
 ]
 ```
+## GET /api/v1/reservations/totalPages?pageSize=4
+* Response
+```json
+10
+```
+
 ## GET /api/v1/reservations/{id}
 * Response
 ```json

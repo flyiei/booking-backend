@@ -1,8 +1,8 @@
 package com.hotel.booking.reservation.service.impl;
 
-import com.hotel.booking.reservation.exception.ReservationSaveOrUpdateException;
+import com.hotel.booking.reservation.exception.ReservationDeleteException;
+import com.hotel.booking.reservation.exception.ReservationSaveAndUpdateException;
 import com.hotel.booking.reservation.model.ReservationData;
-import com.hotel.booking.reservation.model.ReservationPageData;
 import com.hotel.booking.reservation.repository.ReservationRepository;
 import com.hotel.booking.reservation.repository.dto.Reservation;
 import com.hotel.booking.reservation.service.ReservationService;
@@ -30,15 +30,13 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     @Transient
     public ReservationData update(Long reservationID, ReservationData reservationData) {
-        Assert.notNull(reservationID, "reservationID can not be null");
-        Assert.notNull(reservationData, "reservationData can not be null");
+        Assert.notNull(reservationID, "reservationID can not be null for update");
+        Assert.notNull(reservationData, "reservationData can not be null for update");
         Optional<Reservation> reservationOpt = reservationRepository.findById(reservationID);
         Reservation reservation = reservationOpt.isPresent() ? reservationOpt.get() : null;
         if (reservation == null) {
 
-            throw new ReservationSaveOrUpdateException(
-                    ReservationSaveOrUpdateException.buildErrorMessageForSaveOrUpdate(
-                            reservationData, "ID does not exist!"));
+            throw new ReservationSaveAndUpdateException(reservationID, "ID does not exist!");
         }
         reservation = ReservationData.buildReservation(reservationData);
         reservation.setId(reservationID);
@@ -49,7 +47,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Transient
     public ReservationData save(ReservationData reservationData) {
 
-        Assert.notNull(reservationData, "reservationData can not be null");
+        Assert.notNull(reservationData, "reservationData can not be null for save");
         Reservation reservation = ReservationData.buildReservation(reservationData);
         return ReservationData.buildReservationData(reservationRepository.save(reservation));
     }
@@ -71,15 +69,6 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public ReservationPageData buildReservationPageData (Integer pageNum, Integer pageSize) {
-        return ReservationPageData.builder()
-                .reservations(findAllByPaging(pageNum, pageSize))
-                .totalPages(calculateTotalPages(pageSize))
-                .build();
-    }
-
-
-    @Override
     public List<ReservationData> findAll() {
 
         return reservationRepository.findAll().stream()
@@ -88,17 +77,23 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public ReservationData findByID(Long id) {
-        Assert.notNull(id, "reservation id is required for delete");
+    public ReservationData findByID(Long reservationID) {
+        Assert.notNull(reservationID, "reservation id is required for query");
 
-        Optional<Reservation> reservationOpt = reservationRepository.findById(id);
+        Optional<Reservation> reservationOpt = reservationRepository.findById(reservationID);
         return ReservationData.buildReservationData(reservationOpt.isPresent() ? reservationOpt.get() : null);
     }
 
     @Override
-    public void delete(Long id) {
-        Assert.notNull(id, "reservation id is required for delete");
-        reservationRepository.deleteById(id);
+    public void delete(Long reservationID) {
+        Assert.notNull(reservationID, "reservation id is required for delete");
+        Optional<Reservation> reservationOpt = reservationRepository.findById(reservationID);
+        if (reservationOpt.isPresent()) {
+            reservationRepository.deleteById(reservationID);
+        } else {
+            throw new ReservationDeleteException(reservationID, "ID does not exist!");
+        }
+
     }
 
 

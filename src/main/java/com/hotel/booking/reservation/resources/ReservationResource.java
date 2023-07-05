@@ -43,9 +43,9 @@ public class ReservationResource {
     @GET
     @Path("/reservations/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getReservationByID(@PathParam("id") Long id) {
+    public ReservationData getReservationByID(@PathParam("id") Long id) {
 
-        return Response.ok(reservationService.findByID(id)).build();
+        return reservationService.findByID(id);
     }
 
     @DELETE
@@ -60,9 +60,9 @@ public class ReservationResource {
     @Path("/reservations/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response updateReservation(@PathParam ("id") Long id, @Valid @NotNull ReservationData reservationData) {
+    public ReservationData updateReservation(@PathParam ("id") Long id, @Valid @NotNull ReservationData reservationData) {
 
-        return Response.ok(reservationService.update(id, reservationData)).build();
+        return reservationService.update(id, reservationData);
     }
 
 
@@ -70,9 +70,9 @@ public class ReservationResource {
     @Path("/reservation")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response saveReservation(@Valid @NotNull ReservationData reservationData) {
+    public ReservationData saveReservation(@Valid @NotNull ReservationData reservationData) {
 
-        return Response.ok(reservationService.save(reservationData)).build();
+        return reservationService.save(reservationData);
     }
 
 
