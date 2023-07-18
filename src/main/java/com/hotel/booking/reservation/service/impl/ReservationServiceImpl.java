@@ -6,11 +6,11 @@ import com.hotel.booking.reservation.model.ReservationData;
 import com.hotel.booking.reservation.repository.ReservationRepository;
 import com.hotel.booking.reservation.repository.dto.Reservation;
 import com.hotel.booking.reservation.service.ReservationService;
-import jakarta.persistence.Transient;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
-    @Transient
+    @Transactional
     public ReservationData update(Long reservationID, ReservationData reservationData) {
         Assert.notNull(reservationID, "reservationID can not be null for update");
         Assert.notNull(reservationData, "reservationData can not be null for update");
@@ -44,7 +44,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    @Transient
+    @Transactional
     public ReservationData save(ReservationData reservationData) {
 
         Assert.notNull(reservationData, "reservationData can not be null for save");
@@ -85,6 +85,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    @Transactional
     public void delete(Long reservationID) {
         Assert.notNull(reservationID, "reservation id is required for delete");
         Optional<Reservation> reservationOpt = reservationRepository.findById(reservationID);

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Provider
 public class CorsFilter implements ContainerResponseFilter {
     /*
-    CorsFilter class allows FE app and BE app using a same domain.
+    CorsFilter class allows FE app and BE app using different domain.
     Without adding "Access-Control-Allow-Origin" to Headers
     FE keep getting CORS (Cross-Origin Resource Sharing) issues
     due to the browser's security policy that prevents cross-origin
